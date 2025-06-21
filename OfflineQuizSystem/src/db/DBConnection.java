@@ -5,9 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    private static final String URL = "jdbc:sqlite:resources/quiz.db";
-
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL);
+    public static Connection getConnection() throws Exception {
+        Class.forName("org.sqlite.JDBC");
+        return DriverManager.getConnection("jdbc:sqlite:resources/quiz.db");
     }
 }

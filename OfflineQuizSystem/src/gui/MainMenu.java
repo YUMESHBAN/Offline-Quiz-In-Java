@@ -31,15 +31,10 @@ public class MainMenu extends JFrame {
         add(panel);
 
         // Event handlers
-        adminButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Admin panel opens here");
-            // You will later open: new AddQuestion() or new ViewQuestions()
-        });
+        adminButton.addActionListener(e -> new AddQuestion());
 
-        studentButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Student quiz opens here");
-            // You will later open: new StudentQuiz()
-        });
+
+        studentButton.addActionListener(e -> new StartQuiz());
 
         exitButton.addActionListener(e -> System.exit(0));
 
