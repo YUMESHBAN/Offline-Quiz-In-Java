@@ -2,22 +2,19 @@ package gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 
 public class AddQuestion extends JFrame {
 
-    private JTextField subjectField;
+    private JComboBox<String> subjectBox;
     private JTextArea questionArea;
     private JTextField optionA, optionB, optionC, optionD;
     private JComboBox<String> correctAnswerBox;
     private JButton saveButton;
+
     private void saveQuestion() {
-        String subject = subjectField.getText().trim();
+        String subject = (String) subjectBox.getSelectedItem();
         String question = questionArea.getText().trim();
         String a = optionA.getText().trim();
         String b = optionB.getText().trim();
@@ -32,7 +29,7 @@ public class AddQuestion extends JFrame {
         };
 
         // Simple validation
-        if (subject.isEmpty() || question.isEmpty() || a.isEmpty() || b.isEmpty() || c.isEmpty() || d.isEmpty()) {
+        if (subject == null || subject.isEmpty() || question.isEmpty() || a.isEmpty() || b.isEmpty() || c.isEmpty() || d.isEmpty()) {
             JOptionPane.showMessageDialog(this, "❌ Please fill all fields!");
             return;
         }
@@ -62,7 +59,7 @@ public class AddQuestion extends JFrame {
             optionB.setText("");
             optionC.setText("");
             optionD.setText("");
-            subjectField.setText("");
+            subjectBox.setSelectedIndex(0);
             correctAnswerBox.setSelectedIndex(0);
 
         } catch (Exception ex) {
@@ -70,7 +67,6 @@ public class AddQuestion extends JFrame {
             JOptionPane.showMessageDialog(this, "❌ Failed to save question.");
         }
     }
-
 
     public AddQuestion() {
         setTitle("Add New Question");
@@ -83,15 +79,15 @@ public class AddQuestion extends JFrame {
         gbc.insets = new Insets(5,5,5,5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Subject
+      
         gbc.gridx = 0; gbc.gridy = 0;
         add(new JLabel("Subject:"), gbc);
 
-        subjectField = new JTextField();
+        subjectBox = new JComboBox<>(new String[] { "UI components with Swing", "Event handling", "Database Connectivity" });
         gbc.gridx = 1; gbc.gridy = 0; gbc.gridwidth = 2;
-        add(subjectField, gbc);
+        add(subjectBox, gbc);
 
-        // Question
+        
         gbc.gridx = 0; gbc.gridy = 1; gbc.gridwidth = 1;
         add(new JLabel("Question:"), gbc);
 
@@ -140,12 +136,9 @@ public class AddQuestion extends JFrame {
         saveButton = new JButton("Save Question");
         gbc.gridx = 1; gbc.gridy = 7; gbc.gridwidth = 2;
         add(saveButton, gbc);
-        
-        saveButton.addActionListener(e -> {
-            saveQuestion();
-        });
+
+        saveButton.addActionListener(e -> saveQuestion());
 
         setVisible(true);
     }
-    
 }

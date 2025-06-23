@@ -1,53 +1,58 @@
 package gui;
 
-
 import javax.swing.*;
 import java.awt.*;
 
 public class MainMenu extends JFrame {
 
     public MainMenu() {
-        setTitle("Online Quiz Management System");
-        setSize(400, 300);
+        setTitle("Advanced Java Quiz System");
+        setSize(700, 400);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Center on screen
+        setLayout(new BorderLayout(20, 20));
 
-        // Panel to hold buttons
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 1, 10, 10));
-        panel.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
+        JLabel titleLabel = new JLabel("Advanced Java Programming", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        add(titleLabel, BorderLayout.NORTH);
 
-        // Buttons
-        JButton adminButton = new JButton("Admin Panel");
-        JButton studentButton = new JButton("Take Quiz");
-        JButton exitButton = new JButton("Exit");
+    
+        JPanel adminPanel = new JPanel(new GridLayout(0, 1, 10, 10));
+        adminPanel.setBorder(BorderFactory.createTitledBorder("Admin Panel"));
 
-        // Add buttons to panel
-        panel.add(adminButton);
-        panel.add(studentButton);
-        panel.add(exitButton);
+        JButton addQuestionButton = new JButton("➕ Add Question");
+        JButton viewResultsButton = new JButton("📋 View All Results");
+        JButton filterResultsButton = new JButton("🔍 Filter Results");
 
-        // Add panel to frame
-        add(panel);
+        adminPanel.add(addQuestionButton);
+        adminPanel.add(viewResultsButton);
+        adminPanel.add(filterResultsButton); 
 
-        // Event handlers
-        adminButton.addActionListener(e -> new AddQuestion());
+   
+        JPanel studentPanel = new JPanel(new GridLayout(0, 1, 10, 10));
+        studentPanel.setBorder(BorderFactory.createTitledBorder("Student Panel"));
 
+        JButton studentButton = new JButton("📝 Take Java Quiz");
+        studentPanel.add(studentButton);
 
+        
+        JPanel centerPanel = new JPanel(new GridLayout(1, 2, 20, 20));
+        centerPanel.add(adminPanel);
+        centerPanel.add(studentPanel);
+
+        add(centerPanel, BorderLayout.CENTER);
+
+       
+        addQuestionButton.addActionListener(e -> new AddQuestion());
+        viewResultsButton.addActionListener(e -> new ViewResults());
+        filterResultsButton.addActionListener(e -> new FilteredResults()); // 👈 action for new button
         studentButton.addActionListener(e -> new StartQuiz());
-
-        exitButton.addActionListener(e -> System.exit(0));
 
         setVisible(true);
     }
 
-    public static void main(String[] args) {
-        // Use a proper theme
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ignored) {}
 
-        // Launch main window
+    public static void main(String[] args) {
         SwingUtilities.invokeLater(MainMenu::new);
     }
 }
